@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from .form import UserRegisterForm
@@ -11,6 +11,7 @@ def register(request):
         if form.is_valid():
             print ("Valid form", request.POST)
             form.save()
+            return redirect('/login/')
     else:
         form = UserRegisterForm()
     return render(request,
@@ -18,4 +19,5 @@ def register(request):
             context={'form': form})
 
 def home(request):
-    pass
+    return render(request, template_name='user/home.html',
+                context={'user':request.user})
